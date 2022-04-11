@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="628.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.finman.controllers.AccountFormController">
+    <children>
+        <TableView fx:id="accountsTable" layoutX="39.0" layoutY="60.0" prefHeight="460.0" prefWidth="678.0">
+            <columns>
+                <TableColumn fx:id="accountNumber" prefWidth="107.0" text="Account Number"/>
+                <TableColumn fx:id="balance" prefWidth="96.0" text="Balance"/>
+                <TableColumn fx:id="institution" prefWidth="100.0" text="Institution"/>
+                <TableColumn fx:id="accountName" prefWidth="119.0" text="Account Name"/>
+                <TableColumn fx:id="accountType" prefWidth="123.0" text="Account Type"/>
+            </columns>
+        </TableView>
+        <Button fx:id="addNewAccountBtn" layoutX="541.0" layoutY="551.0" mnemonicParsing="false"
+                onAction="#handleAddNewAccountClick" prefHeight="45.0" prefWidth="176.0" text="Add New Account"/>
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackButtonClick"
+                prefHeight="35.0" prefWidth="116.0" text="Back To Home"/>
+    </children>
+</AnchorPane>
