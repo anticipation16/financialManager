@@ -45,6 +45,6 @@ public class AddTransactionTypeController implements Initializable {
     }
 
     public void handleBackButtonClick(ActionEvent actionEvent) throws IOException {
-        switchScene(actionEvent, "/fxml/main-view.fxml");
+        switchScene(actionEvent, "/fxml/add-transaction.fxml");
     }
 }

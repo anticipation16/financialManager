@@ -25,13 +25,43 @@ import java.time.Instant;
 public class Driver {
     private static void init() {
         AccountType at1 = new AccountType("Savings Account", "asset");
-        Account a1 = new Account(12344, 1000, "HDFC", "Savings Account");
+        AccountType at2 = new AccountType("Current Account", "asset");
+        AccountType at3 = new AccountType("Investment Account", "investment");
+        AccountType at4 = new AccountType("Credit Card Account", "liability");
+
+        Account a1 = new Account(1231, 1000, "HDFC", "Savings Account");
+        Account a2 = new Account(1232, 2000, "HDFC", "Current Account");
+        Account a3 = new Account(1233, 5000, "Axis Bank", "Investment Account");
+        Account a4 = new Account(1234, 1500, "Indian Bank", "Credit Card Account");
 
         TransactionType t1 = new TransactionType("Gas", "expense");
         TransactionType t2 = new TransactionType("Salary", "income");
-        Transaction txn1 = new Transaction(-1, 12344, "Gas",
+        TransactionType t3 = new TransactionType("Food", "expense");
+        TransactionType t4 = new TransactionType("Transport", "expense");
+
+        Transaction txn1 = new Transaction(-1, 1231, "Gas",
                 -200, DateTimeParser.getDateTimeString(Instant.now().toString()));
-        Transaction txn2 = new Transaction(-1, 12344, "Salary", 100,
+        Transaction txn2 = new Transaction(-1, 1232, "Salary", 10000,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn3 = new Transaction(-1, 1232, "Food", -100,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn4 = new Transaction(-1, 1233, "Transport", -900,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn5 = new Transaction(-1, 1234, "Transport", -500,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn6 = new Transaction(-1, 1231, "Salary", 12000,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn7 = new Transaction(-1, 1231, "Food", -700,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn8 = new Transaction(-1, 1233, "Salary", 9000,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn9 = new Transaction(-1, 1234, "Salary", 11000,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn10 = new Transaction(-1, 1233, "Food", -400,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn11 = new Transaction(-1, 1231, "Transport", -300,
+                DateTimeParser.getDateTimeString(Instant.now().toString()));
+        Transaction txn12 = new Transaction(-1, 1232, "Gas", -1000,
                 DateTimeParser.getDateTimeString(Instant.now().toString()));
 
 
@@ -39,17 +69,34 @@ public class Driver {
         AccountDAO aDao = new AccountDAOSQLite();
         TransactionDAO tDAO = new TransactionDAOSQLite();
         TransactionTypeDAO transactionTypeDAO = new TransactionTypeDAOSQLite();
-
-        atDao.addAccountType(at1);
-        aDao.addAccount(a1);
+//
+//        atDao.addAccountType(at1);
+//        atDao.addAccountType(at2);
+//        atDao.addAccountType(at3);
+//        atDao.addAccountType(at4);
+//        aDao.addAccount(a1);
+//        aDao.addAccount(a2);
+//        aDao.addAccount(a3);
+//        aDao.addAccount(a4);
         transactionTypeDAO.addTransactionType(t1);
         transactionTypeDAO.addTransactionType(t2);
+        transactionTypeDAO.addTransactionType(t3);
+        transactionTypeDAO.addTransactionType(t4);
         tDAO.addTransaction(txn1);
         tDAO.addTransaction(txn2);
-
+        tDAO.addTransaction(txn3);
+        tDAO.addTransaction(txn4);
+        tDAO.addTransaction(txn5);
+        tDAO.addTransaction(txn6);
+        tDAO.addTransaction(txn7);
+        tDAO.addTransaction(txn8);
+        tDAO.addTransaction(txn9);
+        tDAO.addTransaction(txn10);
+        tDAO.addTransaction(txn11);
+        tDAO.addTransaction(txn12);
     }
 
-    private void printWithType(){
+    private void printWithType() {
         AccountWithTypeDAO accountWithTypeDAO = new AccountWithTypeDAOSQLite();
         for (AccountWithType accountWithType : accountWithTypeDAO.getAllAccountsWithType()) {
             System.out.println(accountWithType);
@@ -64,7 +111,6 @@ public class Driver {
     }
 
     public static void main(String[] args) {
-        System.out.println(System.getProperty("java.version"));
-        System.out.println(System.getProperty("javafx.version"));
+        init();
     }
 }

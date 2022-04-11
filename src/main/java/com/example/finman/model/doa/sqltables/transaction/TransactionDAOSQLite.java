@@ -42,7 +42,7 @@ public class TransactionDAOSQLite implements TransactionDAO {
     @Override
     public List<Transaction> getRecentTransactions(int requiredNumber) {
         List<Transaction> transactions = new ArrayList<>(requiredNumber);
-        String getSQL = "select * from txn order by created_at DESC LIMIT ?";
+        String getSQL = "select * from txn order by transaction_number DESC LIMIT ?";
 
         try (
                 Connection con = getConnection(DB_URL);

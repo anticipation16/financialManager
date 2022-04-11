@@ -16,7 +16,7 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
     public List<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) {
         List<TransactionWithType> list = new ArrayList<>();
 
-        String sql = "select * from vw_transactions_with_type order by created_at limit ?";
+        String sql = "select * from vw_transactions_with_type order by transaction_number DESC limit ?";
         try (Connection con = getConnection(DB_URL);
              PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setInt(1, requiredNumber);
@@ -33,7 +33,7 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
     @Override
     public List<TransactionWithType> getTransactionsFor(long accountNumber, int requiredNumber) {
         String sql = "select * from vw_transactions_with_type where account_number = ?" +
-                " order by created_at limit ?";
+                " order by transaction_number DESC limit ?";
         List<TransactionWithType> transactionForAccount = new ArrayList<>();
 
         try (

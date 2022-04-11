@@ -13,5 +13,9 @@ module com.example.finman {
     requires org.xerial.sqlitejdbc;
     exports com.example.finman.views to javafx.graphics;
     exports com.example.finman.controllers to javafx.fxml;
+    exports com.example.finman.model.doa.sqlviews.accountWithType to javafx.base;
+    exports com.example.finman.model.doa.sqlviews.transactionWithType to javafx.base;
+    opens com.example.finman.model.doa.sqlviews.transactionWithType to javafx.base;
+    opens com.example.finman.model.doa.sqlviews.accountWithType to javafx.base;
     opens com.example.finman.controllers to javafx.fxml;
 }

@@ -85,7 +85,7 @@ public class HomeController implements Initializable {
         account.setCellValueFactory(new PropertyValueFactory<>("accountNumber"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
         transactionType.setCellValueFactory(new PropertyValueFactory<>("transactionType"));
-        recentTransactionsTable.setItems(getRecentTransactionsWithType(5));
+        recentTransactionsTable.setItems(getRecentTransactionsWithType(7));
     }
 
 

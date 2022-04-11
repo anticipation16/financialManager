@@ -72,4 +72,7 @@ public class TransactionFormController implements Initializable {
         switchScene(actionEvent, "/fxml/add-transaction-type.fxml");
     }
 
+    public void handleBackToHome(ActionEvent actionEvent) throws IOException {
+        switchScene(actionEvent, "/fxml/main-view.fxml");
+    }
 }

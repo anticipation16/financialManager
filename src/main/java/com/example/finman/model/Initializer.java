@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Initializer {
 
-    private void initialize() {
+    private static void initialize() {
         Connection c;
         Statement stmt;
 
@@ -79,7 +79,6 @@ public class Initializer {
     }
 
     public static void main(String[] args) {
-        Initializer init = new Initializer();
-        init.initialize();
+       initialize();
     }
 }
