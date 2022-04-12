@@ -111,6 +111,6 @@ public class Driver {
     }
 
     public static void main(String[] args) {
-        init();
+        System.out.println(DateTimeParser.getDateTimeString(Instant.now().toString()));
     }
 }
