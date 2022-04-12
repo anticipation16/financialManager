@@ -11,6 +11,7 @@ import java.util.List;
 
 import static java.sql.DriverManager.getConnection;
 
+
 public class TransactionDAOSQLite implements TransactionDAO {
     private final String DB_URL = "jdbc:sqlite:finance.db";
 
@@ -56,6 +57,32 @@ public class TransactionDAOSQLite implements TransactionDAO {
                         rs.getLong("account_number"),
                         rs.getString("transaction_category"),
                         rs.getDouble("account_name"),
+                        rs.getString("created_at"));
+                transactions.add(current);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactions;
+    }
+
+    @Override
+    public List<Transaction> getTopExpensesOfLastWeek(int requiredNumber) {
+        List<Transaction> transactions = new ArrayList<>();
+
+        String getSQL = "select created_at,amount,transaction_category from txn where (amount<0) order by amount LIMIT ?";
+        try (
+                Connection con = getConnection(DB_URL);
+                PreparedStatement stmt = con.prepareStatement(getSQL);
+        ){
+            stmt.setInt(1, requiredNumber);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Transaction current = new Transaction(
+                        -1,
+                        -1,
+                        rs.getString("transaction_category"),
+                        rs.getDouble("amount"),
                         rs.getString("created_at"));
                 transactions.add(current);
             }

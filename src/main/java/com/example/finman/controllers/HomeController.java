@@ -2,6 +2,9 @@ package com.example.finman.controllers;
 
 import com.example.finman.model.doa.sqltables.account.AccountDAO;
 import com.example.finman.model.doa.sqltables.account.AccountDAOSQLite;
+import com.example.finman.model.doa.sqltables.transaction.Transaction;
+import com.example.finman.model.doa.sqltables.transaction.TransactionDAO;
+import com.example.finman.model.doa.sqltables.transaction.TransactionDAOSQLite;
 import com.example.finman.model.doa.sqlviews.transactionWithType.TransactionWithType;
 import com.example.finman.model.doa.sqlviews.transactionWithType.TransactionWithTypeDAO;
 import com.example.finman.model.doa.sqlviews.transactionWithType.TransactionWithTypeDAOSQLite;
@@ -33,13 +36,25 @@ public class HomeController implements Initializable {
     private TableView<TransactionWithType> recentTransactionsTable;
 
     @FXML
-    private TableColumn<TransactionWithType, Long> amount;
+    private TableColumn<TransactionWithType, Double> amount;
     @FXML
     private TableColumn<TransactionWithType, Long> account;
     @FXML
     private TableColumn<TransactionWithType, String> category;
    // @FXML
    // private Button newTransactionButton;
+    @FXML
+    private TableView<Transaction> topExpensesTable;
+    @FXML
+    private TableColumn<Transaction, String> createdAtExpenses;
+    @FXML
+    private TableColumn<Transaction, Double> amountExpenses;
+    @FXML
+    private TableColumn<Transaction, String> categoryExpenses;
+//    @FXML
+//    private TableColumn<Transaction, Long> accountExpenses;
+//    @FXML
+//    private TableColumn<Transaction, Long> txnNumber;
 
     @FXML
     private Text netWorthText;
@@ -49,6 +64,7 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setNetWorthText();
         setRecentTransactionsTable();
+        setTopExpensesTable();
     }
 
     @FXML
@@ -68,6 +84,22 @@ public class HomeController implements Initializable {
         TransactionWithTypeDAO tDAO = new TransactionWithTypeDAOSQLite();
         list.addAll(tDAO.getRecentTransactionsWithType(requiredNumber));
         return list;
+    }
+
+    private ObservableList<Transaction> getTopExpenses(int requiredNumber) {
+        ObservableList<Transaction> list = FXCollections.observableArrayList();
+        TransactionDAO tDAO = new TransactionDAOSQLite();
+        list.addAll(tDAO.getTopExpensesOfLastWeek(requiredNumber));
+        return list;
+    }
+
+    private void setTopExpensesTable() {
+        createdAtExpenses.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        categoryExpenses.setCellValueFactory(new PropertyValueFactory<>("category"));
+        amountExpenses.setCellValueFactory(new PropertyValueFactory<>("amount"));
+       // accountExpenses.setCellValueFactory(new PropertyValueFactory<>("accountNumber"));
+       // txnNumber.setCellValueFactory(new PropertyValueFactory<>("transactionNumber"));
+        topExpensesTable.setItems(getTopExpenses(7));
     }
 
     private void setNetWorthText() {
