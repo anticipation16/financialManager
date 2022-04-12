@@ -38,8 +38,8 @@ public class HomeController implements Initializable {
     private TableColumn<TransactionWithType, Long> account;
     @FXML
     private TableColumn<TransactionWithType, String> category;
-    @FXML
-    private Button newTransactionButton;
+   // @FXML
+   // private Button newTransactionButton;
 
     @FXML
     private Text netWorthText;
