@@ -44,13 +44,13 @@ public class HomeController implements Initializable {
    // @FXML
    // private Button newTransactionButton;
     @FXML
-    private TableView<Transaction> topExpensesTable;
+    private TableView<TransactionWithType> topExpensesTable;
     @FXML
-    private TableColumn<Transaction, String> createdAtExpenses;
+    private TableColumn<TransactionWithType, String> createdAtExpenses;
     @FXML
-    private TableColumn<Transaction, Double> amountExpenses;
+    private TableColumn<TransactionWithType, Double> amountExpenses;
     @FXML
-    private TableColumn<Transaction, String> categoryExpenses;
+    private TableColumn<TransactionWithType, String> categoryExpenses;
 //    @FXML
 //    private TableColumn<Transaction, Long> accountExpenses;
 //    @FXML
@@ -86,10 +86,10 @@ public class HomeController implements Initializable {
         return list;
     }
 
-    private ObservableList<Transaction> getTopExpenses(int requiredNumber) {
-        ObservableList<Transaction> list = FXCollections.observableArrayList();
-        TransactionDAO tDAO = new TransactionDAOSQLite();
-        list.addAll(tDAO.getTopExpensesOfLastWeek(requiredNumber));
+    private ObservableList<TransactionWithType> getTopExpenses(int requiredNumber) {
+        ObservableList<TransactionWithType> list = FXCollections.observableArrayList();
+        TransactionWithTypeDAO tDao = new TransactionWithTypeDAOSQLite();
+        list.addAll(tDao.getTopExpensesForThisMonth(requiredNumber));
         return list;
     }
 
@@ -97,8 +97,6 @@ public class HomeController implements Initializable {
         createdAtExpenses.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         categoryExpenses.setCellValueFactory(new PropertyValueFactory<>("category"));
         amountExpenses.setCellValueFactory(new PropertyValueFactory<>("amount"));
-       // accountExpenses.setCellValueFactory(new PropertyValueFactory<>("accountNumber"));
-       // txnNumber.setCellValueFactory(new PropertyValueFactory<>("transactionNumber"));
         topExpensesTable.setItems(getTopExpenses(7));
     }
 
