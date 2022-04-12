@@ -51,9 +51,9 @@
         <Button fx:id="viewAccountsBtn" layoutX="631.0" layoutY="132.0" mnemonicParsing="false" onAction="#handleViewAccountsClick" prefHeight="44.0" prefWidth="163.0" text="View Accounts" />
       <TableView fx:id="topExpensesTable" layoutX="515.0" layoutY="230.0" prefHeight="200.0" prefWidth="229.0">
         <columns>
-          <TableColumn fx:id="createdAtExpenses" prefWidth="75.0" text="Created At" />
-          <TableColumn fx:id="categoryExpenses" prefWidth="75.0" text="Category" />
-            <TableColumn fx:id="amountExpenses" prefWidth="75.0" text="Amount" />
+            <TableColumn fx:id="createdAtExpenses" prefWidth="75.0" text="Created At "/>
+            <TableColumn fx:id="categoryExpenses" prefWidth="75.0" text="Category"/>
+            <TableColumn fx:id="amountExpenses" prefWidth="75.0" text="Amount"/>
         </columns>
       </TableView>
       <Text fill="WHITE" layoutX="524.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Week's Top Expenses">

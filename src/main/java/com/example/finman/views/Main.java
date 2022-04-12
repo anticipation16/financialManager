@@ -17,6 +17,10 @@ public class Main extends Application {
         Parent homePane = homePaneLoader.load();
         Scene homeScene = new Scene(homePane);
         stage.setTitle("Finance Manager");
+        stage.setWidth(900);
+        stage.setHeight(650);
+        stage.setResizable(false);
+        stage.setFullScreen(false);
         stage.setScene(homeScene);
         stage.show();
     }

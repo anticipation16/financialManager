@@ -4,9 +4,9 @@
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="543.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Button fx:id="backToAllAccountsButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackButtonClick" prefHeight="42.0" prefWidth="151.0" text="Back To All Accounts" />
-      <Pagination fx:id="pagination" layoutX="100.0" layoutY="135.0" pageCount="100" prefHeight="59.0" prefWidth="200.0" />
+      <Pagination fx:id="pagination" layoutX="202.0" layoutY="176.0" pageCount="100" prefHeight="59.0" prefWidth="346.0" />
     </children>
 </AnchorPane>

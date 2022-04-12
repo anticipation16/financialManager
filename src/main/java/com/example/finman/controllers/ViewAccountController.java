@@ -34,7 +34,7 @@ public class ViewAccountController implements Initializable, Controller {
 
     private List<TransactionWithType> transactionsFromAccount;
     private final int DATA_SIZE = 100;
-    private final int ROWS_PER_PAGE = 5;
+    private final int ROWS_PER_PAGE = 7;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,7 +62,8 @@ public class ViewAccountController implements Initializable, Controller {
         transactionsForTheAccountTable.
                 setItems(FXCollections.observableArrayList(transactionsFromAccount.subList(fromIndex, toIndex)));
         BorderPane b = new BorderPane(transactionsForTheAccountTable);
-        b.setMinSize(390, 170);
+        b.setMinSize(385, 200);
+        b.setMaxSize(385, 200);
         return b;
     }
 
