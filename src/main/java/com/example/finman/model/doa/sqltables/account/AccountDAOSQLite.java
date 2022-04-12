@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.finman.utility.QueryCache.load;
 import static java.sql.DriverManager.getConnection;
 
 
@@ -17,7 +18,7 @@ public class AccountDAOSQLite implements AccountDAO {
 
     @Override
     public void addAccount(Account a) {
-        String sql = "insert into account(account_number, balance, institution, account_name) values(?,?,?,?)";
+        String sql = load("/sql/queries/account/addAccount.sql");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
         try (
@@ -36,9 +37,9 @@ public class AccountDAOSQLite implements AccountDAO {
 
 
     @Override
-    public List<Account> getAll() {
+    public List<Account> getAllAccounts() {
         List<Account> accounts = new ArrayList<>();
-        String getSQL = "select * from account order by account_name";
+        String getSQL = load("/sql/queries/account/getAllAccounts.sql");
         try (
                 Connection con = getConnection(DB_URL);
                 PreparedStatement stmt = con.prepareStatement(getSQL);
@@ -59,9 +60,7 @@ public class AccountDAOSQLite implements AccountDAO {
     @Override
     public List<Account> getAccountsOfType(String type) {
         List<Account> accounts = new ArrayList<>();
-        String getSQL =
-                "select * from account INNER JOIN account_type ON account.account_name=account_type.account_name " +
-                        "where account_type=?";
+        String getSQL = load("/sql/queries/account/getAccountsOfType.sql");
         try (
                 Connection con = getConnection("jdbc:sqlite:finance.db");
                 PreparedStatement stmt = con.prepareStatement(getSQL);
@@ -89,6 +88,5 @@ public class AccountDAOSQLite implements AccountDAO {
         }
         return sum;
     }
-
 
 }
