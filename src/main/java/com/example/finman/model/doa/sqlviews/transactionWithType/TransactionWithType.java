@@ -8,7 +8,8 @@ public class TransactionWithType{
     private final String createdAt;
     private final String transactionType;
 
-    public TransactionWithType(long transactionNumber, long accountNumber, String category, double amount, String createdAt, String transactionType) {
+    public TransactionWithType(long transactionNumber, long accountNumber, String category, double amount,
+                               String createdAt, String transactionType) {
         this.transactionNumber = transactionNumber;
         this.accountNumber = accountNumber;
         this.category = category;
