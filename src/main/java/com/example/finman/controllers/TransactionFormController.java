@@ -55,11 +55,7 @@ public class TransactionFormController implements Initializable {
     }
 
     public void openHomeScene(ActionEvent actionEvent) throws IOException {
-        Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        FXMLLoader homePaneLoader = new FXMLLoader(getClass().getResource("/fxml/main-view.fxml"));
-        Parent homePane = homePaneLoader.load();
-        Scene homeScene = new Scene(homePane);
-        primaryStage.setScene(homeScene);
+        switchScene(actionEvent, "/fxml/main-view.fxml", "/css/pieChart.css");
     }
 
     @FXML

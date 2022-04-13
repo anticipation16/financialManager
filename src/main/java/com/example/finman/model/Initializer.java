@@ -36,9 +36,4 @@ public class Initializer {
         }
     }
 
-
-    public static void main(String[] args) throws SQLException, IOException {
-        // Check if database exists:
-
-    }
 }
