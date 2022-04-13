@@ -121,4 +121,9 @@ public class HomeController implements Initializable {
     }
 
 
+    @FXML
+    public void handleCheckInvestmentsClick(ActionEvent event) throws IOException {
+        switchScene(event, "/fxml/all-investments.fxml");
+    }
+
 }
