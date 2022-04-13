@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface AccountWithTypeDAO {
     List<AccountWithType> getAllAccountsWithType();
+    public List<AccountWithType> getAllAccountsOfSpecificType(String type);
 }

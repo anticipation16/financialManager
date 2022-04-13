@@ -31,4 +31,26 @@ public class AccountWithTypeDAOSQLite implements AccountWithTypeDAO {
         }
         return list;
     }
+
+    public List<AccountWithType> getAllAccountsOfSpecificType(String type) {
+        List<AccountWithType> accounts = new ArrayList<>();
+        String getSQL = "select * from vw_accounts_with_type where type=?";
+        try (
+                Connection con = getConnection("jdbc:sqlite:finance.db");
+                PreparedStatement stmt = con.prepareStatement(getSQL);
+        ) {
+            stmt.setString(1, type.toLowerCase());
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                AccountWithType current = new AccountWithType(resultSet.getLong("account_number"),
+                        resultSet.getDouble("balance"),
+                        resultSet.getString("institution"),
+                        resultSet.getString("account_name"),
+                        resultSet.getString("type"));
+                accounts.add(current);
+            }
+        } catch (SQLException sqlException) {
+        }
+        return accounts;
+    }
 }

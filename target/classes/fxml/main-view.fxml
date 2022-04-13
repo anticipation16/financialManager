@@ -48,8 +48,8 @@
                 <Font size="22.0" />
             </font>
         </Text>
-        <Button fx:id="viewAccountsBtn" layoutX="701.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleViewAccountsClick" prefHeight="44.0" prefWidth="163.0" text="View Accounts" />
-      <TableView fx:id="topExpensesTable" layoutX="543.0" layoutY="271.0" prefHeight="306.0" prefWidth="340.0">
+        <Button fx:id="viewAccountsBtn" layoutX="713.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleViewAccountsClick" prefHeight="44.0" prefWidth="163.0" text="View Accounts" />
+      <TableView fx:id="topExpensesTable" layoutX="543.0" layoutY="271.0" prefHeight="278.0" prefWidth="340.0">
         <columns>
             <TableColumn fx:id="createdAtExpenses" prefWidth="142.0" text="Created At " />
             <TableColumn fx:id="categoryExpenses" minWidth="8.0" text="Category" />
@@ -62,5 +62,7 @@
          </font>
       </Text>
       <Button layoutX="190.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleAllTransactionsClick" prefHeight="44.0" prefWidth="146.0" text="View All Transactions" />
+      <Button layoutX="688.0" layoutY="161.0" mnemonicParsing="false" onAction="#handleCheckInvestmentsClick" prefHeight="28.0" prefWidth="189.0" text="Check Investment Accounts" />
+      <Button layoutX="640.0" layoutY="573.0" mnemonicParsing="false" onAction="#handleViewAllExpensesClick" prefHeight="36.0" prefWidth="146.0" text="View All Expenses" />
     </children>
 </AnchorPane>

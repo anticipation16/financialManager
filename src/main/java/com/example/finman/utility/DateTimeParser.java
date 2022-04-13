@@ -16,7 +16,7 @@ public class DateTimeParser {
         Instant instant = Instant.parse(iso8601DateTime);
         ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, TimeZone.getDefault().toZoneId());
         String time = DateTimeFormatter.ofPattern("hh:mma").format(zonedDateTime);
-        String date = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(zonedDateTime);
+        String date = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(zonedDateTime);
         return date + " " + time;
     }
 }

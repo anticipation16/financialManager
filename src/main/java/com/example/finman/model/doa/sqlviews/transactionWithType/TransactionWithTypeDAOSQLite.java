@@ -50,11 +50,8 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
         String storedDate = DateTimeParser.getDateTimeString(isoDate);
         String month = storedDate.substring(5, 7);
         String year = storedDate.substring(0, 4);
+        String sql = load("/sql/queries/transactionWithType/getTopExpensesThisMonth.sql");
 
-        String sql = "select * from vw_transactions_with_type where created_at like" +
-                " " + "'%" + year + "/" + month +
-                "%' and type = 'expense'" +
-                " order by amount ASC limit ?";
         List<TransactionWithType> listOfTopExpensesThisMonth = new ArrayList<>();
         return getTransactionWithTypesListFromSQL(requiredNumber, sql, listOfTopExpensesThisMonth);
     }
@@ -62,23 +59,37 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
     @Override
     public List<TransactionWithType> getAllTransactionsWithType() {
         String sql = "select * from vw_transactions_with_type order by transaction_number DESC";
-        List<TransactionWithType> allTransactions = new ArrayList<>();
-        try (
-                Connection connection = getConnection(DB_URL);
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            allTransactions = transactionWithTypeListFromResultSet(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return allTransactions;
+        return getTransactionWithTypesListFromSQL(sql);
+    }
+
+    @Override
+    public List<TransactionWithType> getExpensesForThisMonth() {
+        String sql = load("/sql/queries/transactionWithType/getExpensesForThisMonth.sql");
+        return getTransactionWithTypesListFromSQL(sql);
+    }
+
+    @Override
+    public List<TransactionWithType> getExpensesForToday() {
+        String sql = load("/sql/queries/transactionWithType/getExpensesForToday.sql");
+        return getTransactionWithTypesListFromSQL(sql);
+    }
+
+    @Override
+    public List<TransactionWithType> getExpensesForThisYear() {
+        String sql = load("/sql/queries/transactionWithType/getExpensesForThisYear.sql");
+        return getTransactionWithTypesListFromSQL(sql);
+    }
+
+    @Override
+    public List<TransactionWithType> getExpensesForThisWeek() {
+        String sql = load("/sql/queries/transactionWithType/getExpensesForThisWeek.sql");
+        return getTransactionWithTypesListFromSQL(sql);
     }
 
     private List<TransactionWithType> getTransactionWithTypesListFromSQL(int requiredNumber,
                                                                          String sql,
                                                                          List<TransactionWithType>
-                                                                                 listOfTopExpensesThisMonth) {
+                                                                                 listOfTopExpensesThisMonth)    {
         try (
                 Connection connection = getConnection(DB_URL);
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
@@ -90,6 +101,21 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
             e.printStackTrace();
         }
         return listOfTopExpensesThisMonth;
+    }
+
+    private List<TransactionWithType> getTransactionWithTypesListFromSQL(String sql) {
+        List<TransactionWithType> list = new ArrayList<>();
+        try (
+                Connection connection = getConnection(DB_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            list = transactionWithTypeListFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+
     }
 
 
