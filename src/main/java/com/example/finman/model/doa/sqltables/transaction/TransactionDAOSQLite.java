@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.finman.utility.QueryCache.load;
 import static java.sql.DriverManager.getConnection;
 
 
@@ -17,9 +18,8 @@ public class TransactionDAOSQLite implements TransactionDAO {
 
     @Override
     public void addTransaction(Transaction transaction) {
-        String insertionSQL = "insert into txn(account_number, amount, created_at, transaction_category) " +
-                "values(?, ?, ?, ?)";
-        String updateAccountSQL = "update account set balance = account.balance + ? where account_number = ?";
+        String insertionSQL = load("/sql/queries/transaction/addTransaction.sql");
+        String updateAccountSQL = load("/sql/queries/account/updateAccount.sql");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
         try (
@@ -43,7 +43,7 @@ public class TransactionDAOSQLite implements TransactionDAO {
     @Override
     public List<Transaction> getRecentTransactions(int requiredNumber) {
         List<Transaction> transactions = new ArrayList<>(requiredNumber);
-        String getSQL = "select * from txn order by transaction_number DESC LIMIT ?";
+        String getSQL = load("/sql/queries/transaction/getRecentTransactions.sql");
 
         try (
                 Connection con = getConnection(DB_URL);
@@ -69,7 +69,7 @@ public class TransactionDAOSQLite implements TransactionDAO {
     @Override
     public long getNumberOfTransactions() {
         long count = 0;
-        String getSQL = "select count(transaction_number) as num_of_txn from txn";
+        String getSQL = load("/sql/queries/transaction/getNumberOfTransactions.sql");
         try (
                 Connection con = getConnection("jdbc:sqlite:finance.db");
                 PreparedStatement stmt = con.prepareStatement(getSQL);

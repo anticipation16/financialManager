@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.finman.utility.QueryCache.load;
 import static java.sql.DriverManager.getConnection;
 
 public class TransactionTypeDAOSQLite implements TransactionTypeDAO {
@@ -16,7 +17,7 @@ public class TransactionTypeDAOSQLite implements TransactionTypeDAO {
 
     @Override
     public void addTransactionType(TransactionType newType) {
-        String sql = "insert into txn_type(transaction_category, transaction_type) values(?,?)";
+        String sql = load("/sql/queries/transactionType/addTransactionType.sql");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
         try (
@@ -38,7 +39,7 @@ public class TransactionTypeDAOSQLite implements TransactionTypeDAO {
 
     @Override
     public List<String> getAllTransactionCategories() {
-        String sql = "select transaction_category from txn_type";
+        String sql = load("/sql/queries/transactionType/getAllTransactionCategories.sql");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
         List<String> categories = new ArrayList<>();

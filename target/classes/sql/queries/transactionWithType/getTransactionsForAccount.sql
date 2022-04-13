@@ -1,0 +1,1 @@
+select * from vw_transactions_with_type where account_number = ? order by transaction_number DESC limit ?;

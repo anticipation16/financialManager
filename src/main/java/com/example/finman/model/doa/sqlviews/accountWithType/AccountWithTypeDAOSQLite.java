@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.finman.utility.QueryCache.load;
 import static java.sql.DriverManager.getConnection;
 
 public class AccountWithTypeDAOSQLite implements AccountWithTypeDAO {
@@ -14,7 +15,7 @@ public class AccountWithTypeDAOSQLite implements AccountWithTypeDAO {
     public List<AccountWithType> getAllAccountsWithType() {
         List<AccountWithType> list = new ArrayList<>();
         String DB_URL = "jdbc:sqlite:finance.db";
-        String sql = "select * from vw_accounts_with_type";
+        String sql = load("/sql/queries/accountWithType/getAllAccountsWithType.sql");
         try (Connection con = getConnection(DB_URL);
              PreparedStatement stmt = con.prepareStatement(sql)) {
             ResultSet resultSet = stmt.executeQuery();

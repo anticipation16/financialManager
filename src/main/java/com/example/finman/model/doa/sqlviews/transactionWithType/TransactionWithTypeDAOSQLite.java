@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.finman.utility.QueryCache.load;
 import static java.sql.DriverManager.getConnection;
 
 public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
@@ -18,14 +19,13 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
     @Override
     public List<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) {
         List<TransactionWithType> list = new ArrayList<>();
-        String sql = "select * from vw_transactions_with_type order by transaction_number DESC limit ?";
+        String sql = load("/sql/queries/transactionWithType/getRecentTransactionsWithType.sql");
         return getTransactionWithTypesListFromSQL(requiredNumber, sql, list);
     }
 
     @Override
     public List<TransactionWithType> getTransactionsFor(long accountNumber, int requiredNumber) {
-        String sql = "select * from vw_transactions_with_type where account_number = ?" +
-                " order by transaction_number DESC limit ?";
+        String sql = load("/sql/queries/transactionWithType/getTransactionsForAccount.sql");
         List<TransactionWithType> transactionForAccount = new ArrayList<>();
 
         try (

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.finman.utility.QueryCache.load;
 import static java.sql.DriverManager.getConnection;
 
 public class AccountTypeDAOSQLite implements AccountTypeDAO {
@@ -14,7 +15,7 @@ public class AccountTypeDAOSQLite implements AccountTypeDAO {
 
     @Override
     public void addAccountType(AccountType accountType) {
-        String sql = "insert into account_type (account_name, account_type) VALUES(?,?)";
+        String sql = load("sql/queries/accountType/addAccountType.sql");
         try (
                 Connection connection = getConnection(DB_URL);
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -29,13 +30,13 @@ public class AccountTypeDAOSQLite implements AccountTypeDAO {
 
     @Override
     public List<String> getAllAccountNames() {
-        String sql = "select account_name from account_type";
+        String sql = load("sql/queries/accountType/getAllAccountNames.sql");
         return getStrings(sql, "account_name");
     }
 
     @Override
     public List<String> getAllAccountTypes() {
-        return List.of("asset", "liability", "investment");
+        return List.of("asset", "liability", "investment", "income");
     }
 
     private List<String> getStrings(String sql, String column_name) {

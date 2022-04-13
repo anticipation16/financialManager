@@ -4,6 +4,7 @@ import com.example.finman.utility.ScriptRunner;
 import org.sqlite.SQLiteConfig;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class Initializer {
     private final String DB_URL = "jdbc:sqlite:finance.db";
 
-    private void initializeTables() throws SQLException, IOException {
+    public void initializeTables() throws SQLException, IOException {
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
         Connection connection;
@@ -23,11 +24,11 @@ public class Initializer {
             ScriptRunner runner = new ScriptRunner(connection, false, false);
             runner.runScript(new BufferedReader(
                     new FileReader(Objects.requireNonNull(Initializer.class.getResource(
-                            "/sql/financeDDL.sql")).getFile())));
+                            "/sql/ddl/financeDDL.sql")).getFile())));
 
             runner.runScript(new BufferedReader(
                     new FileReader(Objects.requireNonNull(Initializer.class.getResource(
-                            "/sql/financeInitialData.sql")).getFile())));
+                            "/sql/ddl/financeInitialData.sql")).getFile())));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -37,7 +38,7 @@ public class Initializer {
 
 
     public static void main(String[] args) throws SQLException, IOException {
-        Initializer initializer = new Initializer();
-        initializer.initializeTables();
+        // Check if database exists:
+
     }
 }
