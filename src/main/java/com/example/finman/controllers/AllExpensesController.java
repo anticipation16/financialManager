@@ -77,7 +77,7 @@ public class AllExpensesController implements Initializable {
 
     @FXML
     public void handleBackButtonClick(ActionEvent e) throws IOException {
-        switchScene(e, "/fxml/main-view.fxml");
+        switchScene(e, "/fxml/main-view.fxml", "/css/pieChart.css");
     }
 
 }

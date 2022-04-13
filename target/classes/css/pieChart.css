@@ -1,0 +1,66 @@
+
+/* Colors of JavaFX pie chart slices. */
+.data0.chart-pie {
+    -fx-pie-color: turquoise;
+}
+
+.data1.chart-pie {
+    -fx-pie-color: aquamarine;
+}
+
+.data2.chart-pie {
+    -fx-pie-color: cornflowerblue;
+}
+
+.data3.chart-pie {
+    -fx-pie-color: blue;
+}
+
+.data4.chart-pie {
+    -fx-pie-color: cadetblue;
+}
+
+.data5.chart-pie {
+    -fx-pie-color: navy;
+}
+
+.data6.chart-pie {
+    -fx-pie-color: deepskyblue;
+}
+
+.data7.chart-pie {
+    -fx-pie-color: cyan;
+}
+
+.data8.chart-pie {
+    -fx-pie-color: steelblue;
+}
+
+.data9.chart-pie {
+    -fx-pie-color: teal;
+}
+
+.data10.chart-pie {
+    -fx-pie-color: royalblue;
+}
+
+.data11.chart-pie {
+    -fx-pie-color: dodgerblue;
+}
+
+/* Pie Chart legend background color and stroke. */
+.chart-legend {
+    -fx-background-color: #D8E1FF;
+}
+
+.chart-pie-label-line {
+    -fx-stroke: #8b4513;
+    -fx-fill: #8b4513;
+}
+
+.chart-pie-label { /*this is what you need for labels*/
+    -fx-fill: #ffffff !important;
+    -fx-font-size: 1em;
+}
+
+

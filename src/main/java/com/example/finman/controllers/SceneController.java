@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class SceneController {
     public static void switchScene(ActionEvent actionEvent, String fxmlLocation) throws IOException {
@@ -15,6 +16,17 @@ public class SceneController {
         FXMLLoader loader = new FXMLLoader(SceneController.class.getResource(fxmlLocation));
         Parent pane = loader.load();
         Scene scene = new Scene(pane);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void switchScene(ActionEvent actionEvent, String fxmlLocation, String cssLocation) throws IOException {
+        Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource(fxmlLocation));
+        Parent pane = loader.load();
+        Scene scene = new Scene(pane);
+        scene.getStylesheets().add(Objects.requireNonNull(
+                SceneController.class.getResource(cssLocation)).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

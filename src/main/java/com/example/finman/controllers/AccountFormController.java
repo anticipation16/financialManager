@@ -108,7 +108,7 @@ public class AccountFormController implements Initializable {
 
     @FXML
     public void handleBackButtonClick(ActionEvent actionEvent) throws IOException {
-        switchScene(actionEvent, "/fxml/main-view.fxml");
+        switchScene(actionEvent, "/fxml/main-view.fxml", "/css/pieChart.css");
     }
 
 }

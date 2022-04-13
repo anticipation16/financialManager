@@ -16,9 +16,11 @@ public class Main extends Application {
         FXMLLoader homePaneLoader = new FXMLLoader(getClass().getResource("/fxml/main-view.fxml"));
         Parent homePane = homePaneLoader.load();
         Scene homeScene = new Scene(homePane);
+        System.out.println(getClass().getResource("/css/pieChart.css").getFile());
+        homeScene.getStylesheets().add(getClass().getResource("/css/pieChart.css").toExternalForm());
         stage.setTitle("Finance Manager");
         stage.setWidth(900);
-        stage.setHeight(650);
+        stage.setHeight(670);
         stage.setResizable(false);
         stage.setFullScreen(false);
         stage.setScene(homeScene);

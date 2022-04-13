@@ -47,7 +47,7 @@ public class AddAccountFormController implements Initializable, Controller {
                 Double.parseDouble(balance.getCharacters().toString()),
                 institution.getCharacters().toString(),
                 accountNameChoiceBox.getValue()));
-        switchScene(actionEvent, "/fxml/main-view.fxml");
+        switchScene(actionEvent, "/fxml/main-view.fxml", "/css/pieChart.css");
     }
 
     @FXML

@@ -73,6 +73,6 @@ public class TransactionFormController implements Initializable {
     }
 
     public void handleBackToHome(ActionEvent actionEvent) throws IOException {
-        switchScene(actionEvent, "/fxml/main-view.fxml");
+        switchScene(actionEvent, "/fxml/main-view.fxml", "/css/pieChart.css" );
     }
 }
