@@ -2,9 +2,6 @@ package com.example.finman.controllers;
 
 import com.example.finman.model.doa.sqltables.account.AccountDAO;
 import com.example.finman.model.doa.sqltables.account.AccountDAOSQLite;
-import com.example.finman.model.doa.sqltables.transaction.Transaction;
-import com.example.finman.model.doa.sqltables.transaction.TransactionDAO;
-import com.example.finman.model.doa.sqltables.transaction.TransactionDAOSQLite;
 import com.example.finman.model.doa.sqlviews.transactionWithType.TransactionWithType;
 import com.example.finman.model.doa.sqlviews.transactionWithType.TransactionWithTypeDAO;
 import com.example.finman.model.doa.sqlviews.transactionWithType.TransactionWithTypeDAOSQLite;
@@ -41,8 +38,8 @@ public class HomeController implements Initializable {
     private TableColumn<TransactionWithType, Long> account;
     @FXML
     private TableColumn<TransactionWithType, String> category;
-   // @FXML
-   // private Button newTransactionButton;
+    // @FXML
+    // private Button newTransactionButton;
     @FXML
     private TableView<TransactionWithType> topExpensesTable;
     @FXML
@@ -76,7 +73,6 @@ public class HomeController implements Initializable {
     public void handleViewAccountsClick(ActionEvent actionEvent) throws IOException {
         switchScene(actionEvent, "/fxml/view-accounts.fxml");
     }
-
 
 
     private ObservableList<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) {
@@ -119,6 +115,10 @@ public class HomeController implements Initializable {
     }
 
 
+    @FXML
+    public void handleAllTransactionsClick(ActionEvent event) throws IOException {
+        switchScene(event, "/fxml/all-transactions.fxml");
+    }
 
 
 }

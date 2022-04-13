@@ -6,4 +6,5 @@ public interface TransactionWithTypeDAO {
     List<TransactionWithType> getRecentTransactionsWithType(int requiredNumber);
     List<TransactionWithType> getTransactionsFor(long accountNumber, int requiredNumber);
     List<TransactionWithType> getTopExpensesForThisMonth(int requiredNumber);
+    List<TransactionWithType> getAllTransactionsWithType();
 }

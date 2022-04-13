@@ -59,6 +59,22 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
         return getTransactionWithTypesListFromSQL(requiredNumber, sql, listOfTopExpensesThisMonth);
     }
 
+    @Override
+    public List<TransactionWithType> getAllTransactionsWithType() {
+        String sql = "select * from vw_transactions_with_type order by transaction_number DESC";
+        List<TransactionWithType> allTransactions = new ArrayList<>();
+        try (
+                Connection connection = getConnection(DB_URL);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            allTransactions = transactionWithTypeListFromResultSet(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allTransactions;
+    }
+
     private List<TransactionWithType> getTransactionWithTypesListFromSQL(int requiredNumber,
                                                                          String sql,
                                                                          List<TransactionWithType>
