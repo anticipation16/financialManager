@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -63,16 +64,17 @@ public class AllExpensesController implements Initializable {
     public void handleChoiceBoxChange() {
         String choice = expensesForChoiceBox.getValue();
         TransactionWithTypeDAO typeDAO = new TransactionWithTypeDAOSQLite();
-        switch (choice) {
-            case "This Week" ->
-                    expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForThisWeek()));
-            case "This Month" ->
-                    expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForThisMonth()));
-            case "This Year" ->
-                    expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForThisYear()));
-            default ->
-                    expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForToday()));
+        try {
+            switch (choice) {
+                case "This Week" -> expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForThisWeek()));
+                case "This Month" -> expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForThisMonth()));
+                case "This Year" -> expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForThisYear()));
+                default -> expensesForTable.setItems(FXCollections.observableArrayList(typeDAO.getExpensesForToday()));
+            }
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
         }
+
     }
 
     @FXML

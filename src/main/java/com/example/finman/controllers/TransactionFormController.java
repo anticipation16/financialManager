@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,11 +41,17 @@ public class TransactionFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("init");
         TransactionTypeDAO transactionTypeDAO = new TransactionTypeDAOSQLite();
-        List<String> categories = transactionTypeDAO.getAllTransactionCategories();
+        try {
+            List<String> categories = transactionTypeDAO.getAllTransactionCategories();
+            transaction_category.getItems().addAll(categories);
+            if (categories.size() > 0)
+                transaction_category.setValue(categories.get(0));
 
-        transaction_category.getItems().addAll(categories);
-        if (categories.size() > 0)
-            transaction_category.setValue(categories.get(0));
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
+
+
     }
 
     public void openHomeScene(ActionEvent actionEvent) throws IOException {
@@ -56,15 +63,19 @@ public class TransactionFormController implements Initializable {
     }
 
     @FXML
-    public void handleAddNewTransaction(ActionEvent e) throws IOException {
+    public void handleAddNewTransaction(ActionEvent actionEvent) throws IOException {
         long amount = Long.parseLong(transaction_amount.getCharacters().toString());
         long accountNum = Long.parseLong(transaction_account_number.getCharacters().toString());
         String category = transaction_category.getValue();
         TransactionDAO transactionDAO = new TransactionDAOSQLite();
         Transaction t = new Transaction(-1, accountNum, category, amount,
                 getDateTimeString(Instant.now().toString()));
-        transactionDAO.addTransaction(t);
-        openHomeScene(e);
+        try {
+            transactionDAO.addTransaction(t);
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
+        openHomeScene(actionEvent);
     }
 
     @FXML
@@ -73,6 +84,6 @@ public class TransactionFormController implements Initializable {
     }
 
     public void handleBackToHome(ActionEvent actionEvent) throws IOException {
-        switchScene(actionEvent, "/fxml/main-view.fxml", "/css/pieChart.css" );
+        switchScene(actionEvent, "/fxml/main-view.fxml", "/css/pieChart.css");
     }
 }

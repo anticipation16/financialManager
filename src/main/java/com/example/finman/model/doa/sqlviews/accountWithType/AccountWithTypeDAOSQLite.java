@@ -12,7 +12,7 @@ import static java.sql.DriverManager.getConnection;
 
 public class AccountWithTypeDAOSQLite implements AccountWithTypeDAO {
     @Override
-    public List<AccountWithType> getAllAccountsWithType() {
+    public List<AccountWithType> getAllAccountsWithType() throws SQLException {
         List<AccountWithType> list = new ArrayList<>();
         String DB_URL = "jdbc:sqlite:finance.db";
         String sql = load("/sql/queries/accountWithType/getAllAccountsWithType.sql");
@@ -26,13 +26,11 @@ public class AccountWithTypeDAOSQLite implements AccountWithTypeDAO {
                         resultSet.getString("account_name"),
                         resultSet.getString("type")));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return list;
     }
 
-    public List<AccountWithType> getAllAccountsOfSpecificType(String type) {
+    public List<AccountWithType> getAllAccountsOfSpecificType(String type) throws SQLException {
         List<AccountWithType> accounts = new ArrayList<>();
         String getSQL = "select * from vw_accounts_with_type where type=?";
         try (
@@ -49,7 +47,6 @@ public class AccountWithTypeDAOSQLite implements AccountWithTypeDAO {
                         resultSet.getString("type"));
                 accounts.add(current);
             }
-        } catch (SQLException sqlException) {
         }
         return accounts;
     }

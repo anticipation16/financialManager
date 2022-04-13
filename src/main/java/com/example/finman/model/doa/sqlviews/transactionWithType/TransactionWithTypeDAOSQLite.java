@@ -17,14 +17,14 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
     private final String DB_URL = "jdbc:sqlite:finance.db";
 
     @Override
-    public List<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) {
+    public List<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) throws SQLException {
         List<TransactionWithType> list = new ArrayList<>();
         String sql = load("/sql/queries/transactionWithType/getRecentTransactionsWithType.sql");
         return getTransactionWithTypesListFromSQL(requiredNumber, sql, list);
     }
 
     @Override
-    public List<TransactionWithType> getTransactionsFor(long accountNumber, int requiredNumber) {
+    public List<TransactionWithType> getTransactionsFor(long accountNumber, int requiredNumber) throws SQLException {
         String sql = load("/sql/queries/transactionWithType/getTransactionsForAccount.sql");
         List<TransactionWithType> transactionForAccount = new ArrayList<>();
 
@@ -37,15 +37,13 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
 
             ResultSet resultSet = statement.executeQuery();
             transactionForAccount = transactionWithTypeListFromResultSet(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         return transactionForAccount;
     }
 
     @Override
-    public List<TransactionWithType> getTopExpensesForThisMonth(int requiredNumber) {
+    public List<TransactionWithType> getTopExpensesForThisMonth(int requiredNumber) throws SQLException {
         String isoDate = Instant.now().toString();
         String storedDate = DateTimeParser.getDateTimeString(isoDate);
         String month = storedDate.substring(5, 7);
@@ -57,37 +55,37 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
     }
 
     @Override
-    public List<TransactionWithType> getAllTransactionsWithType() {
+    public List<TransactionWithType> getAllTransactionsWithType() throws SQLException {
         String sql = "select * from vw_transactions_with_type order by transaction_number DESC";
         return getTransactionWithTypesListFromSQL(sql);
     }
 
     @Override
-    public List<TransactionWithType> getExpensesForThisMonth() {
+    public List<TransactionWithType> getExpensesForThisMonth() throws SQLException {
         String sql = load("/sql/queries/transactionWithType/getExpensesForThisMonth.sql");
         return getTransactionWithTypesListFromSQL(sql);
     }
 
     @Override
-    public List<TransactionWithType> getExpensesForToday() {
+    public List<TransactionWithType> getExpensesForToday() throws SQLException {
         String sql = load("/sql/queries/transactionWithType/getExpensesForToday.sql");
         return getTransactionWithTypesListFromSQL(sql);
     }
 
     @Override
-    public List<TransactionWithType> getExpensesForThisYear() {
+    public List<TransactionWithType> getExpensesForThisYear() throws SQLException {
         String sql = load("/sql/queries/transactionWithType/getExpensesForThisYear.sql");
         return getTransactionWithTypesListFromSQL(sql);
     }
 
     @Override
-    public List<TransactionWithType> getExpensesForThisWeek() {
+    public List<TransactionWithType> getExpensesForThisWeek() throws SQLException {
         String sql = load("/sql/queries/transactionWithType/getExpensesForThisWeek.sql");
         return getTransactionWithTypesListFromSQL(sql);
     }
 
     @Override
-    public List<GroupedTransaction> getTopExpenditureTransactionGroupedForThisMonth() {
+    public List<GroupedTransaction> getTopExpenditureTransactionGroupedForThisMonth() throws SQLException {
         List<GroupedTransaction> groupedTransactionList = new ArrayList<>();
         String sql = load(
                 "/sql/queries/transactionWithType/getTopExpenditureTransactionsGroupedForThisMonth.sql");
@@ -99,8 +97,6 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
             while (resultSet.next())
                 groupedTransactionList.add(new GroupedTransaction(resultSet.getDouble("sum"),
                         resultSet.getString("transaction_category")));
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return groupedTransactionList;
     }
@@ -108,7 +104,7 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
     private List<TransactionWithType> getTransactionWithTypesListFromSQL(int requiredNumber,
                                                                          String sql,
                                                                          List<TransactionWithType>
-                                                                                 listOfTopExpensesThisMonth) {
+                                                                                 listOfTopExpensesThisMonth) throws SQLException {
         try (
                 Connection connection = getConnection(DB_URL);
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
@@ -116,13 +112,11 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
             preparedStatement.setInt(1, requiredNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
             listOfTopExpensesThisMonth = transactionWithTypeListFromResultSet(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return listOfTopExpensesThisMonth;
     }
 
-    private List<TransactionWithType> getTransactionWithTypesListFromSQL(String sql) {
+    private List<TransactionWithType> getTransactionWithTypesListFromSQL(String sql) throws SQLException {
         List<TransactionWithType> list = new ArrayList<>();
         try (
                 Connection connection = getConnection(DB_URL);
@@ -130,8 +124,6 @@ public class TransactionWithTypeDAOSQLite implements TransactionWithTypeDAO {
         ) {
             ResultSet resultSet = preparedStatement.executeQuery();
             list = transactionWithTypeListFromResultSet(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return list;
 

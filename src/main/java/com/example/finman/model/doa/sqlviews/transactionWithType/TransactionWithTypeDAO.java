@@ -1,23 +1,24 @@
 package com.example.finman.model.doa.sqlviews.transactionWithType;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface TransactionWithTypeDAO {
-    List<TransactionWithType> getRecentTransactionsWithType(int requiredNumber);
+    List<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) throws SQLException;
 
-    List<TransactionWithType> getTransactionsFor(long accountNumber, int requiredNumber);
+    List<TransactionWithType> getTransactionsFor(long accountNumber, int requiredNumber) throws SQLException;
 
-    List<TransactionWithType> getTopExpensesForThisMonth(int requiredNumber);
+    List<TransactionWithType> getTopExpensesForThisMonth(int requiredNumber) throws SQLException;
 
-    List<TransactionWithType> getAllTransactionsWithType();
+    List<TransactionWithType> getAllTransactionsWithType() throws SQLException;
 
-    List<TransactionWithType> getExpensesForThisMonth();
+    List<TransactionWithType> getExpensesForThisMonth() throws SQLException;
 
-    List<TransactionWithType> getExpensesForToday();
+    List<TransactionWithType> getExpensesForToday() throws SQLException;
 
-    List<TransactionWithType> getExpensesForThisYear();
+    List<TransactionWithType> getExpensesForThisYear() throws SQLException;
 
-    List<TransactionWithType> getExpensesForThisWeek();
+    List<TransactionWithType> getExpensesForThisWeek() throws SQLException;
 
-    List<GroupedTransaction> getTopExpenditureTransactionGroupedForThisMonth();
+    List<GroupedTransaction> getTopExpenditureTransactionGroupedForThisMonth() throws SQLException;
 }

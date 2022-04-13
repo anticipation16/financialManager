@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static com.example.finman.controllers.SceneController.switchScene;
@@ -31,14 +32,22 @@ public class AddAccountTypeController implements Initializable {
     private ObservableList<String> getAccountTypesList() {
         ObservableList<String> accountTypesList = FXCollections.observableArrayList();
         AccountTypeDAO dao = new AccountTypeDAOSQLite();
-        accountTypesList.addAll(dao.getAllAccountTypes());
+        try {
+            accountTypesList.addAll(dao.getAllAccountTypes());
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         return accountTypesList;
     }
 
     public void handleAddAccountTypeClick(ActionEvent actionEvent) throws IOException {
         AccountType newAccountType = new AccountType(accountName.getText(), accountTypesChoiceBox.getValue());
         AccountTypeDAO accountTypeDAO = new AccountTypeDAOSQLite();
-        accountTypeDAO.addAccountType(newAccountType);
+        try {
+            accountTypeDAO.addAccountType(newAccountType);
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         switchScene(actionEvent, "/fxml/add-account.fxml");
     }
 }

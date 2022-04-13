@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -59,11 +60,15 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setNetWorthText();
-        setRecentTransactionsTable();
-        setPieChart();
+        try {
+            setRecentTransactionsTable();
+            setPieChart();
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
     }
 
-    private void setPieChart() {
+    private void setPieChart() throws SQLException {
         List<GroupedTransaction> groupedTransactionList;
         groupedTransactionList =
                 new TransactionWithTypeDAOSQLite().getTopExpenditureTransactionGroupedForThisMonth();
@@ -92,21 +97,22 @@ public class HomeController implements Initializable {
     }
 
 
-    private ObservableList<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) {
+    private ObservableList<TransactionWithType> getRecentTransactionsWithType(int requiredNumber) throws
+            SQLException {
         ObservableList<TransactionWithType> list = FXCollections.observableArrayList();
         TransactionWithTypeDAO tDAO = new TransactionWithTypeDAOSQLite();
         list.addAll(tDAO.getRecentTransactionsWithType(requiredNumber));
         return list;
     }
 
-    private ObservableList<TransactionWithType> getTopExpenses(int requiredNumber) {
+    private ObservableList<TransactionWithType> getTopExpenses(int requiredNumber) throws SQLException {
         ObservableList<TransactionWithType> list = FXCollections.observableArrayList();
         TransactionWithTypeDAO tDao = new TransactionWithTypeDAOSQLite();
         list.addAll(tDao.getTopExpensesForThisMonth(requiredNumber));
         return list;
     }
 
-    private void setTopExpensesTable() {
+    private void setTopExpensesTable() throws SQLException {
         createdAtExpenses.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         categoryExpenses.setCellValueFactory(new PropertyValueFactory<>("category"));
         amountExpenses.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -115,14 +121,19 @@ public class HomeController implements Initializable {
 
     private void setNetWorthText() {
         AccountDAO accountDAO = new AccountDAOSQLite();
-        double assets = accountDAO.getBalanceByType("asset");
-        double investments = accountDAO.getBalanceByType("investment");
-        double liabilities = accountDAO.getBalanceByType("liability");
-        double netWorth = assets + investments - liabilities;
-        netWorthText.setText(Double.toString(netWorth));
+        try {
+            double assets = accountDAO.getBalanceByType("asset");
+            double investments = accountDAO.getBalanceByType("investment");
+            double liabilities = accountDAO.getBalanceByType("liability");
+            double netWorth = assets + investments - liabilities;
+            netWorthText.setText(Double.toString(netWorth));
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
+
     }
 
-    private void setRecentTransactionsTable() {
+    private void setRecentTransactionsTable() throws SQLException {
         createdAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         account.setCellValueFactory(new PropertyValueFactory<>("accountNumber"));

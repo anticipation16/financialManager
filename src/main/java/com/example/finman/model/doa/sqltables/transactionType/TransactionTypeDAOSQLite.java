@@ -16,7 +16,7 @@ public class TransactionTypeDAOSQLite implements TransactionTypeDAO {
     String DB_URL = "jdbc:sqlite:finance.db";
 
     @Override
-    public void addTransactionType(TransactionType newType) {
+    public void addTransactionType(TransactionType newType) throws SQLException {
         String sql = load("/sql/queries/transactionType/addTransactionType.sql");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
@@ -27,8 +27,6 @@ public class TransactionTypeDAOSQLite implements TransactionTypeDAO {
             statement.setString(1, newType.transactionCategory().toLowerCase());
             statement.setString(2, newType.transactionType().toLowerCase());
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -38,7 +36,7 @@ public class TransactionTypeDAOSQLite implements TransactionTypeDAO {
     }
 
     @Override
-    public List<String> getAllTransactionCategories() {
+    public List<String> getAllTransactionCategories() throws SQLException {
         String sql = load("/sql/queries/transactionType/getAllTransactionCategories.sql");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
@@ -52,8 +50,6 @@ public class TransactionTypeDAOSQLite implements TransactionTypeDAO {
                 String category = rs.getString("transaction_category");
                 categories.add(category);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return categories;
     }

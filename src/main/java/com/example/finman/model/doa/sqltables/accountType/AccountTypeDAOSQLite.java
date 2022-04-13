@@ -14,8 +14,8 @@ public class AccountTypeDAOSQLite implements AccountTypeDAO {
     private final String DB_URL = "jdbc:sqlite:finance.db";
 
     @Override
-    public void addAccountType(AccountType accountType) {
-        String sql = load("sql/queries/accountType/addAccountType.sql");
+    public void addAccountType(AccountType accountType) throws SQLException {
+        String sql = load("/sql/queries/accountType/addAccountType.sql");
         try (
                 Connection connection = getConnection(DB_URL);
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -23,14 +23,12 @@ public class AccountTypeDAOSQLite implements AccountTypeDAO {
             statement.setString(1, accountType.accountName().toLowerCase());
             statement.setString(2, accountType.accountType().toLowerCase());
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     @Override
-    public List<String> getAllAccountNames() {
-        String sql = load("sql/queries/accountType/getAllAccountNames.sql");
+    public List<String> getAllAccountNames() throws SQLException {
+        String sql = load("/sql/queries/accountType/getAllAccountNames.sql");
         return getStrings(sql, "account_name");
     }
 
@@ -39,7 +37,7 @@ public class AccountTypeDAOSQLite implements AccountTypeDAO {
         return List.of("asset", "liability", "investment", "income");
     }
 
-    private List<String> getStrings(String sql, String column_name) {
+    private List<String> getStrings(String sql, String column_name)throws SQLException {
         List<String> resultList = new ArrayList<>();
         try (
                 Connection connection = getConnection(DB_URL);
@@ -49,8 +47,6 @@ public class AccountTypeDAOSQLite implements AccountTypeDAO {
             while (resultSet.next()) {
                 resultList.add(resultSet.getString(column_name));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return resultList;
     }

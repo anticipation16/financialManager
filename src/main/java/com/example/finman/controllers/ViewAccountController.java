@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -38,10 +39,14 @@ public class ViewAccountController implements Initializable, Controller {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadTransactionFromAccount();
-        pagination.setPageCount(10);
-        pagination.setCurrentPageIndex(0);
-        pagination.setPageFactory(this::createPage);
+        try {
+            loadTransactionFromAccount();
+            pagination.setPageCount(10);
+            pagination.setCurrentPageIndex(0);
+            pagination.setPageFactory(this::createPage);
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
     }
 
     public Node createPage(int pageIndex) {
@@ -67,7 +72,7 @@ public class ViewAccountController implements Initializable, Controller {
         return b;
     }
 
-    private void loadTransactionFromAccount() {
+    private void loadTransactionFromAccount() throws SQLException {
         TransactionWithTypeDAO dao = new TransactionWithTypeDAOSQLite();
         transactionsFromAccount = dao.getTransactionsFor(accountNumber, DATA_SIZE);
     }

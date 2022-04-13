@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -44,7 +45,12 @@ public class AllTransactionsController implements Initializable {
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
         type.setCellValueFactory(new PropertyValueFactory<>("transactionType"));
         TransactionWithTypeDAO dao = new TransactionWithTypeDAOSQLite();
-        List<TransactionWithType> allTransactions = dao.getAllTransactionsWithType();
+        List<TransactionWithType> allTransactions = null;
+        try {
+            allTransactions = dao.getAllTransactionsWithType();
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         allTransactionsTable.setItems(FXCollections.observableArrayList(allTransactions));
     }
 

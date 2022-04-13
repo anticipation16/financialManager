@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static com.example.finman.controllers.SceneController.switchScene;
@@ -31,7 +32,11 @@ public class AddTransactionTypeController implements Initializable {
     private void setTransactionTypeChoiceBox() {
         ObservableList<String> typeList = FXCollections.observableArrayList();
         TransactionTypeDAO dao = new TransactionTypeDAOSQLite();
-        typeList.addAll(dao.getAllTransactionTypes());
+        try {
+            typeList.addAll(dao.getAllTransactionTypes());
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         transactionTypeChoiceBox.setItems(typeList);
     }
 
@@ -40,7 +45,11 @@ public class AddTransactionTypeController implements Initializable {
         TransactionType newTransactionType = new TransactionType(transactionCategory.getText(),
                 transactionTypeChoiceBox.getValue());
 
-        dao.addTransactionType(newTransactionType);
+        try {
+            dao.addTransactionType(newTransactionType);
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         switchScene(actionEvent, "/fxml/add-transaction.fxml");
     }
 

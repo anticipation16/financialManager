@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static com.example.finman.controllers.SceneController.switchScene;
@@ -42,7 +43,11 @@ public class AllInvestmentsController implements Initializable {
     private ObservableList<AccountWithType> getAllAccountsWithSpecificType(String type) {
         AccountWithTypeDAO accountWithTypeDAO = new AccountWithTypeDAOSQLite();
         ObservableList<AccountWithType> list = FXCollections.observableArrayList();
-        list.addAll(accountWithTypeDAO.getAllAccountsOfSpecificType(type));
+        try {
+            list.addAll(accountWithTypeDAO.getAllAccountsOfSpecificType(type));
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         return list;
     }
 

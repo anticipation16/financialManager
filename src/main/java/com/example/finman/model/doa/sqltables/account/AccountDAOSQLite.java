@@ -17,7 +17,7 @@ public class AccountDAOSQLite implements AccountDAO {
     private final String DB_URL = "jdbc:sqlite:finance.db";
 
     @Override
-    public void addAccount(Account a) {
+    public void addAccount(Account a)throws SQLException {
         String sql = load("/sql/queries/account/addAccount.sql");
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
@@ -30,14 +30,12 @@ public class AccountDAOSQLite implements AccountDAO {
             statement.setString(3, a.institution().toLowerCase());
             statement.setString(4, a.accountName().toLowerCase());
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
 
     @Override
-    public List<Account> getAllAccounts() {
+    public List<Account> getAllAccounts() throws SQLException {
         List<Account> accounts = new ArrayList<>();
         String getSQL = load("/sql/queries/account/getAllAccounts.sql");
         try (
@@ -52,13 +50,12 @@ public class AccountDAOSQLite implements AccountDAO {
                         rs.getString("account_name"));
                 accounts.add(current);
             }
-        } catch (SQLException sqlException) {
         }
         return accounts;
     }
 
     @Override
-    public List<Account> getAccountsOfType(String type) {
+    public List<Account> getAccountsOfType(String type) throws SQLException {
         List<Account> accounts = new ArrayList<>();
         String getSQL = load("/sql/queries/account/getAccountsOfType.sql");
         try (
@@ -74,13 +71,12 @@ public class AccountDAOSQLite implements AccountDAO {
                         rs.getString("account_name"));
                 accounts.add(current);
             }
-        } catch (SQLException sqlException) {
         }
         return accounts;
     }
 
     @Override
-    public long getBalanceByType(String type) {
+    public long getBalanceByType(String type) throws SQLException {
         List<Account> accountsOfType = getAccountsOfType(type);
         long sum = 0;
         for (Account a : accountsOfType) {

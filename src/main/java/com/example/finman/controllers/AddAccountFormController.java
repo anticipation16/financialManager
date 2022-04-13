@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static com.example.finman.controllers.SceneController.switchScene;
@@ -36,17 +37,25 @@ public class AddAccountFormController implements Initializable, Controller {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         AccountTypeDAO accountTypeDAO = new AccountTypeDAOSQLite();
-        accountNameChoiceBox.getItems().addAll(accountTypeDAO.getAllAccountNames());
+        try {
+            accountNameChoiceBox.getItems().addAll(accountTypeDAO.getAllAccountNames());
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
     }
 
     @FXML
     public void handleAddAccountClick(ActionEvent actionEvent) throws IOException {
         AccountDAO accountDAO = new AccountDAOSQLite();
-        accountDAO.addAccount(new Account(
-                Long.parseLong(accountNumber.getCharacters().toString()),
-                Double.parseDouble(balance.getCharacters().toString()),
-                institution.getCharacters().toString(),
-                accountNameChoiceBox.getValue()));
+        try {
+            accountDAO.addAccount(new Account(
+                    Long.parseLong(accountNumber.getCharacters().toString()),
+                    Double.parseDouble(balance.getCharacters().toString()),
+                    institution.getCharacters().toString(),
+                    accountNameChoiceBox.getValue()));
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         switchScene(actionEvent, "/fxml/main-view.fxml", "/css/pieChart.css");
     }
 

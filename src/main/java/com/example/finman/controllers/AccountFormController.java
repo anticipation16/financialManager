@@ -17,13 +17,12 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static com.example.finman.controllers.SceneController.switchScene;
 
 public class AccountFormController implements Initializable {
-    @FXML
-    private Button addNewAccountBtn;
     @FXML
     private TableView<AccountWithType> accountsTable;
     @FXML
@@ -51,7 +50,11 @@ public class AccountFormController implements Initializable {
     private ObservableList<AccountWithType> getAllAccountsWithType() {
         AccountWithTypeDAO accountWithTypeDAO = new AccountWithTypeDAOSQLite();
         ObservableList<AccountWithType> list = FXCollections.observableArrayList();
-        list.addAll(accountWithTypeDAO.getAllAccountsWithType());
+        try {
+            list.addAll(accountWithTypeDAO.getAllAccountsWithType());
+        } catch (SQLException e) {
+            SQLExceptionController.displayAlert(e);
+        }
         return list;
     }
 
